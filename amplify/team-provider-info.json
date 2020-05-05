@@ -10,6 +10,11 @@
             "StackName": "amplify-amplifyvideo-dev-173317",
             "StackId": "arn:aws:cloudformation:eu-west-2:787394456552:stack/amplify-amplifyvideo-dev-173317/2aaf17a0-8eee-11ea-87c9-0a5f6fd32d44",
             "AmplifyAppId": "d5jjmyqjwanyp"
+        },
+        "categories": {
+            "auth": {
+                "amplifyvideo6bf8733b": {}
+            }
         }
     }
 }

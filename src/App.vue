@@ -8,6 +8,7 @@
     <div v-for="item in todos" :key="item.id">
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
+      <a href="#" v-on:click="deleteTodo(item)">Delete</a>
     </div>
   </div>
   <amplify-sign-out></amplify-sign-out>
@@ -16,13 +17,13 @@
 
 <script>
 import { API } from 'aws-amplify';
-import { createTodo } from './graphql/mutations';
+import { createTodo, deleteTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 import { onCreateTodo } from './graphql/subscriptions';
 
 export default {
   name: 'App',
-   async created(){
+  async created(){
     this.getTodos();
     this.subscribe();
   },
@@ -33,7 +34,6 @@ export default {
       todos: []
     }
   },
- 
   methods: {
     async createTodo() {
       const { name, description } = this;
@@ -52,6 +52,15 @@ export default {
         query: listTodos
       });
       this.todos = todos.data.listTodos.items;
+    },
+    async deleteTodo(item){
+      if (!item) return;
+
+      await API.graphql({
+        query: deleteTodo,
+        variables: {input: {id: item.id}},
+      });
+      this.todos.splice(this.todos.indexOf(item), 1);
     },
     subscribe() {
       API.graphql({ query: onCreateTodo })
